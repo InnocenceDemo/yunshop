@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--增加日志的支持-->
+    <!--settings主要用于改变MyBatis运行时的行为，如开启二级缓存，开启延迟加载等。-->
+    <settings>
+        <setting name="logImpl" value="log4j"/>
+    </settings>
+    <!--取别名-->
+    <typeAliases>
+        <!--方式一：自定义别名，对类单独进行别名设置  -->
+        <!--<typeAlias alias="user" type="com.daily.pojo.User"></typeAlias>-->
+        <!--<typeAlias alias="product" type="com.daily.pojo.Product"></typeAlias>-->
+        <!-- 方式二：对包进行扫描，可以批量进行别名设置，设置规则是：获取类名称，将其第一个字母变为小写 -->
+        <package name="com.lhy.pojo"/>
+    </typeAliases>
+    <!--查找sql映射文件-->
+    <mappers>
+        <!--方式一：使用相对classpath的路径-->
+        <!--<mapper resource="com/itheima/mapper/UserMapper.xml" />-->
+        <!--方式二：使用mapper接口类全路径-->
+        <!--<mapper class="com.itheima.mapper.UserMapper" />-->
+        <!--方式三：扫描该目录包下所有mapper接口-->
+        <package name="com.lhy.dao"/>
+    </mappers>
+</configuration>

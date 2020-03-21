@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- ==================代理方式=================
+由mapper标签开始，由/mapper结束，可以把它想成一个空间，是映射文件
+属性namespace：空间名，主要在代理中使用。这个namespace是唯一的。
+这里把mapper标签和接口联系在一起了，namespace=写接口路径，映射文件要和接口在同一目录下
+ -->
+<mapper namespace="com.lhy.dao.ClassiFicationMapper">
+    <select id="findFirstClassiFication" resultType="map">
+        SELECT *
+        FROM first_dir
+    </select>
+
+    <select id="findSecondDir" parameterType="String" resultType="map">
+        select id,second_itemize
+        from second_dir
+        WHERE first_id = #{firstDirId}
+    </select>
+
+    <select id="findthreeThreeDir" parameterType="String" resultType="map">
+        select id,three_itemize
+        from three_dir
+        WHERE second_id = #{twoDirId}
+    </select>
+</mapper>

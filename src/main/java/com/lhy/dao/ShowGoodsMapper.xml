@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- ==================代理方式=================
+由mapper标签开始，由/mapper结束，可以把它想成一个空间，是映射文件
+属性namespace：空间名，主要在代理中使用。这个namespace是唯一的。
+这里把mapper标签和接口联系在一起了，namespace=写接口路径，映射文件要和接口在同一目录下
+ -->
+<mapper namespace="com.lhy.dao.ShowGoodsMapper">
+    <!--查找所有商品-->
+    <select id="indexFindAllGoods" resultType="int">
+        SELECT COUNT(*)
+        FROM goodsmsg
+    </select>
+
+    <select id="findByPaging"  parameterType="map" resultType="map">
+        SELECT id,gsname,address,gdes,price,gimg,three_itemize,gcode
+        FROM goodsmsg
+        limit #{begin},#{pageSize}
+    </select>
+
+    <select id="showGoodsDetail"  parameterType="Integer" resultType="map">
+        SELECT g.id,g.gsname,g.address,g.gdes,g.gimg,g.three_itemize,g.gcode,g.price,s.stock
+        FROM goodsmsg g JOIN stock s ON g.id=s.gid
+        WHERE g.id=#{gid}
+    </select>
+</mapper>

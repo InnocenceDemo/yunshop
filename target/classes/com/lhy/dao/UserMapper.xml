@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhy.dao.UserMapper">
+    <select id="checkReg" parameterType="String" resultType="int">
+        select count(uphone)
+        from user
+        where uphone=#{uphone}
+    </select>
+    <insert id="reg" parameterType="User">
+        insert into user (nickname,uphone,password,idcard,sex,birthday)
+        values (#{nickname},#{uphone},#{password},#{idcard},#{sex},#{birthday})
+    </insert>
+    <select id="login" parameterType="map" resultType="User">
+        select id,uname,uphone,idcard,sex,uimg,nickname,email,udesc
+        from user
+        where uphone=#{uphone}  and password=#{password}
+    </select>
+</mapper>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhy.dao.ShoppingCarMapper">
+    <!--获取购物车中的商品id-->
+    <select id="shoppingCar" parameterType="Integer" resultType="java.util.Map">
+        select gid
+        from buymsg
+        WHERE uid = #{userid} and isbuy = '0'
+    </select>
+    <!--统计购物车商品个数-->
+    <select id="findCount" parameterType="Integer" resultType="Integer">
+        select COUNT(*) as total
+        from buymsg
+        WHERE uid = #{userid} and isbuy = '0'
+    </select>
+
+    <!--获取购物车中的商品信息-->
+    <select id="findShoppingCarMsg" parameterType="java.util.List" resultType="map">
+        select gimg,gsname,gid,uid,isbuy,iscomment,buycount,CAST(price as DECIMAL(13,2)) as price,buymsg.id as bid
+        from buymsg JOIN goodsmsg g ON buymsg.gid = g.id
+        WHERE gid in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item.gid}
+        </foreach>
+
+    </select>
+
+    <!--移除购物车中单个商品-->
+    <delete id="delFromBuymsg" parameterType="Integer">
+        delete from buymsg where id = #{bid}
+    </delete>
+
+    <!--添加商品到购物车-->
+    <insert id="addGoodsToCar" parameterType="map">
+        insert into buymsg(uid, gid, isbuy,buycount)
+        values(#{uid}, #{gid}, 0,#{count})
+    </insert>
+    <!--判断购物车中是否又相同的商品-->
+    <select id="equalsGoods" parameterType="map" resultType="int">
+        SELECT buycount
+        FROM  buymsg
+        WHERE uid=#{uid} and gid=#{gid} and isbuy=0
+    </select>
+    <!--修改buycount数据-->
+    <update id="alertShoppingCarCount" parameterType="map">
+        UPDATE buymsg
+        SET buycount = #{count}
+        WHERE uid=#{uid} AND  gid=#{gid} AND isbuy=0
+    </update>
+</mapper>
